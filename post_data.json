@@ -1,0 +1,5 @@
+{
+  "recipient": "test@example.com",
+  "content": "Stress test message",
+  "providerType": "EMAIL"
+}
