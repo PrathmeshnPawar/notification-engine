@@ -20,7 +20,7 @@ The system follows a distributed event-driven architecture. By utilizing a messa
 
 ## 🛠️ Tech Stack
 
-* **Backend:** Java 21, Spring Boot 3.3
+* **Backend:** Java 21 (LTS), Spring Boot 3.3
 * **Messaging:** RabbitMQ (AMQP)
 * **Data Models:** Java Records (Immutable DTOs)
 * **Infrastructure:** Docker, Docker Compose
@@ -37,3 +37,21 @@ Ensure you have **Docker** and **Maven** installed on your local machine.
 Run the following command in the root directory to build and start the RabbitMQ broker and Spring Boot services:
 ```bash
 docker compose up -d --build
+```
+---
+
+## 🧪 Load & Functional Testing
+
+The project includes ready-to-run shell scripts to simulate notification traffic.
+
+### 🔹 Single Notification Test
+
+```bash
+./test-notification.sh
+```
+
+### 🔹 Bulk Notification Test
+
+```bash
+./bulk-notification-test.sh
+```
