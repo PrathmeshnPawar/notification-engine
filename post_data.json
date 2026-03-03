@@ -1,5 +1,52 @@
-{
-  "recipient": "test@example.com",
-  "content": "Stress test message",
-  "providerType": "EMAIL"
-}
+[
+  {
+    "recipient": "test1@example.com",
+    "content": "Stress test message 1",
+    "providerType": "EMAIL"
+  },
+  {
+    "recipient": "test2@example.com",
+    "content": "Stress test message 2",
+    "providerType": "EMAIL"
+  },
+  {
+    "recipient": "test3@example.com",
+    "content": "Stress test message 3",
+    "providerType": "EMAIL"
+  },
+  {
+    "recipient": "test4@example.com",
+    "content": "Stress test message 4",
+    "providerType": "EMAIL"
+  },
+  {
+    "recipient": "test5@example.com",
+    "content": "Stress test message 5",
+    "providerType": "EMAIL"
+  },
+  {
+    "recipient": "test6@example.com",
+    "content": "Stress test message 6",
+    "providerType": "EMAIL"
+  },
+  {
+    "recipient": "test7@example.com",
+    "content": "Stress test message 7",
+    "providerType": "EMAIL"
+  },
+  {
+    "recipient": "test8@example.com",
+    "content": "Stress test message 8",
+    "providerType": "EMAIL"
+  },
+  {
+    "recipient": "test9@example.com",
+    "content": "Stress test message 9",
+    "providerType": "EMAIL"
+  },
+  {
+    "recipient": "test10@example.com",
+    "content": "Stress test message 10",
+    "providerType": "EMAIL"
+  }
+]
