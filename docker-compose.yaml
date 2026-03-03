@@ -1,6 +1,13 @@
-version: "3.9"
-
 services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: notification-mq
+    ports:
+      - "5672:5672"   # AMQP protocol port
+      - "15672:15672" # Management UI dashboard
+    networks:
+      - notification-net
+
   redis:
     image: redis:latest
     container_name: notification-redis
@@ -8,40 +15,6 @@ services:
       - ALLOW_EMPTY_PASSWORD=yes
     ports:
       - "6379:6379"
-    networks:
-      - notification-net
-
-  kafka:
-    image: apache/kafka:latest
-    container_name: notification-kafka
-    ports:
-      - "9094:9094"
-    environment:
-      # Apache Kafka native KRaft variables (no CFG_ prefix)
-      KAFKA_NODE_ID: 1
-      KAFKA_PROCESS_ROLES: controller,broker
-      KAFKA_LISTENERS: PLAINTEXT://:9092,CONTROLLER://:9093,EXTERNAL://:9094
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://notification-kafka:9092,EXTERNAL://localhost:9094
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,EXTERNAL:PLAINTEXT
-      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@notification-kafka:9093
-      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
-      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
-      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-      # Note: Cluster ID is required for native Apache image to auto-format
-      KAFKA_CLUSTERS_0_NAME: local
-    networks:
-      - notification-net
-
-  kafka-ui:
-    image: provectuslabs/kafka-ui:v0.7.1
-    container_name: notification-kafka-ui
-    depends_on:
-      - kafka
-    ports:
-      - "8080:8080"
-    environment:
-      - KAFKA_CLUSTERS_0_NAME=local
-      - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=notification-kafka:9092
     networks:
       - notification-net
 
@@ -54,10 +27,11 @@ services:
     ports:
       - "8081:8081"
     environment:
-      - SPRING_KAFKA_BOOTSTRAP_SERVERS=notification-kafka:9092
+      # Use the service name 'rabbitmq' as the host
+      - SPRING_RABBITMQ_HOST=rabbitmq
       - SPRING_DATA_REDIS_HOST=notification-redis
     depends_on:
-      - kafka
+      - rabbitmq
       - redis
     networks:
       - notification-net
@@ -68,10 +42,13 @@ services:
       args:
         - MODULE_NAME=worker
     container_name: notification-worker
+    ports:
+      - "8082:8082"
     environment:
-      - SPRING_KAFKA_BOOTSTRAP_SERVERS=notification-kafka:9092
+      # Use the service name 'rabbitmq' as the host
+      - SPRING_RABBITMQ_HOST=rabbitmq
     depends_on:
-      - kafka
+      - rabbitmq
     networks:
       - notification-net
 

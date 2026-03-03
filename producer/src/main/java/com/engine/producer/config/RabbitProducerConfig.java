@@ -30,9 +30,11 @@ public class RabbitProducerConfig {
 
             producer.sendNotification(
                     new NotificationDTO(
-                            "EMAIL",
                             "user@email.com",
-                            "Welcome to Notification Engine"
+                            "Welcome to Notification Engine",
+                            "EMAIL"
+
+
                     )
             );
         };
